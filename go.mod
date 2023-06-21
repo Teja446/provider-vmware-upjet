@@ -1,4 +1,4 @@
-module github.com/upbound/upjet-provider-template
+module github.com/accenture/provider-vmware
 
 go 1.19
 

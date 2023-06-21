@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: resources.null.template.upbound.io
+  name: disks.virtual.vmware.upbound.io
 spec:
-  group: null.template.upbound.io
+  group: virtual.vmware.upbound.io
   names:
     categories:
     - crossplane
     - managed
-    - template
-    kind: Resource
-    listKind: ResourceList
-    plural: resources
-    singular: resource
+    - vmware
+    kind: Disk
+    listKind: DiskList
+    plural: disks
+    singular: disk
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Resource is the Schema for the Resources API. <no value>
+        description: Disk is the Schema for the Disks API. <no value>
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ResourceSpec defines the desired state of Resource
+            description: DiskSpec defines the desired state of Disk
             properties:
               deletionPolicy:
                 default: Delete
@@ -67,13 +67,20 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  triggers:
-                    additionalProperties:
-                      type: string
-                    description: A map of arbitrary strings that, when changed, will
-                      force the null resource to be replaced, re-running any associated
-                      provisioners.
-                    type: object
+                  adapterType:
+                    type: string
+                  createDirectories:
+                    type: boolean
+                  datacenter:
+                    type: string
+                  datastore:
+                    type: string
+                  size:
+                    type: number
+                  type:
+                    type: string
+                  vmdkPath:
+                    type: string
                 type: object
               managementPolicy:
                 default: FullControl
@@ -261,20 +268,34 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: datastore is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.datastore)
+            - message: size is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.size)
+            - message: vmdkPath is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.vmdkPath)
           status:
-            description: ResourceStatus defines the observed state of Resource.
+            description: DiskStatus defines the observed state of Disk.
             properties:
               atProvider:
                 properties:
+                  adapterType:
+                    type: string
+                  createDirectories:
+                    type: boolean
+                  datacenter:
+                    type: string
+                  datastore:
+                    type: string
                   id:
                     type: string
-                  triggers:
-                    additionalProperties:
-                      type: string
-                    description: A map of arbitrary strings that, when changed, will
-                      force the null resource to be replaced, re-running any associated
-                      provisioners.
-                    type: object
+                  size:
+                    type: number
+                  type:
+                    type: string
+                  vmdkPath:
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

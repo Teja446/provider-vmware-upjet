@@ -10,12 +10,13 @@ import (
 
 	ujconfig "github.com/upbound/upjet/pkg/config"
 
-	"github.com/upbound/upjet-provider-template/config/null"
+	"github.com/accenture/provider-vmware/config/virtualdisk"
+	"github.com/accenture/provider-vmware/config/virtualmachine"
 )
 
 const (
-	resourcePrefix = "template"
-	modulePath     = "github.com/upbound/upjet-provider-template"
+	resourcePrefix = "vmware"
+	modulePath     = "github.com/accenture/provider-vmware"
 )
 
 //go:embed schema.json
@@ -35,7 +36,8 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		null.Configure,
+		virtualmachine.Configure,
+		virtualdisk.Configure,
 	} {
 		configure(pc)
 	}
