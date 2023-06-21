@@ -12,6 +12,7 @@ import (
 
 	"github.com/accenture/provider-vmware/config/virtualdisk"
 	"github.com/accenture/provider-vmware/config/virtualmachine"
+	"github.com/accenture/provider-vmware/config/datastorecluster"
 )
 
 const (
@@ -38,6 +39,7 @@ func GetProvider() *ujconfig.Provider {
 		// add custom config functions
 		virtualmachine.Configure,
 		virtualdisk.Configure,
+		datastorecluster.Configure,
 	} {
 		configure(pc)
 	}

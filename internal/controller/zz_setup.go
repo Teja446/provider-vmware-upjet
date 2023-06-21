@@ -9,6 +9,7 @@ import (
 
 	"github.com/upbound/upjet/pkg/controller"
 
+	cluster "github.com/accenture/provider-vmware/internal/controller/datastore/cluster"
 	providerconfig "github.com/accenture/provider-vmware/internal/controller/providerconfig"
 	disk "github.com/accenture/provider-vmware/internal/controller/virtual/disk"
 	machine "github.com/accenture/provider-vmware/internal/controller/virtual/machine"
@@ -18,6 +19,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		cluster.Setup,
 		providerconfig.Setup,
 		disk.Setup,
 		machine.Setup,

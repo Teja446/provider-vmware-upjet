@@ -12,6 +12,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
 	"vsphere_virtual_machine": config.IdentifierFromProvider,
 	"vsphere_virtual_disk": config.IdentifierFromProvider,
+	"vsphere_datastore_cluster": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
